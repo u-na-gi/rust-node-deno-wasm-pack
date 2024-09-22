@@ -1,7 +1,7 @@
 FROM --platform=amd64 node:22.8.0-bullseye
 COPY --from=denoland/deno:debian-1.46.3 /usr/bin/deno /usr/bin/deno
 
-RUN apt update && apt install -y curl wget git 
+RUN apt update && apt install -y curl wget git clang
 
 # rustは環境構築簡単だが、nodejsは色々buildしないといけなくてだるい。
 # rust
@@ -14,3 +14,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN rustup target add wasm32-unknown-unknown
 
 RUN cargo install wasm-pack
+
+# 重いから入れとこ
+RUN cargo install cargo-binstall
+RUN cargo binstall --force --no-confirm cargo-watch cargo-generate
