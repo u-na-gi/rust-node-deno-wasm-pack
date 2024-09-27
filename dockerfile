@@ -1,7 +1,7 @@
 FROM --platform=amd64 node:22.8.0-bullseye
 COPY --from=denoland/deno:debian-1.46.3 /usr/bin/deno /usr/bin/deno
 
-RUN apt update && apt install -y curl wget git clang
+RUN apt update && apt install -y curl wget git clang llvm
 
 # rustは環境構築簡単だが、nodejsは色々buildしないといけなくてだるい。
 # rust
