@@ -18,3 +18,7 @@ RUN cargo install wasm-pack
 # 重いから入れとこ
 RUN cargo install cargo-binstall
 RUN cargo binstall --force --no-confirm cargo-watch cargo-generate
+
+
+# deno
+ENV PATH "/root/.deno/bin:$PATH"
