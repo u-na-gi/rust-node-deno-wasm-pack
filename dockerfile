@@ -1,5 +1,5 @@
 FROM --platform=amd64 node:22.13.1-bookworm
-COPY --from=denoland/deno:debian-2.1.7 /usr/bin/deno /usr/bin/deno
+COPY --from=denoland/deno:debian-2.3.1 /usr/bin/deno /usr/bin/deno
 
 RUN apt update && apt install -y curl wget git clang llvm
 
