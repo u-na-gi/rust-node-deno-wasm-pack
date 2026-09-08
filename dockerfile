@@ -1,12 +1,14 @@
-FROM --platform=amd64 node:22.13.1-bookworm
-COPY --from=denoland/deno:debian-2.3.1 /usr/bin/deno /usr/bin/deno
+FROM node:24.20.0-trixie
+COPY --from=denoland/deno:debian-2.9.6 /usr/bin/deno /usr/bin/deno
 
-RUN apt update && apt install -y curl wget git clang llvm
+RUN apt-get update && apt-get install -y --no-install-recommends curl wget git clang llvm \
+    && rm -rf /var/lib/apt/lists/*
 
 # rustは環境構築簡単だが、nodejsは色々buildしないといけなくてだるい。
 # rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o installer.sh
-RUN sh installer.sh -y
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o installer.sh \
+    && sh installer.sh -y \
+    && rm installer.sh
 
 # rustのパスを通す
 ENV PATH="/root/.cargo/bin:${PATH}"
@@ -21,4 +23,4 @@ RUN cargo binstall --force --no-confirm cargo-watch cargo-generate
 
 
 # deno
-ENV PATH "/root/.deno/bin:$PATH"
+ENV PATH="/root/.deno/bin:${PATH}"
