@@ -1,7 +1,7 @@
 name: Publish image to GHCR
 
 # owner が v* タグを push したときだけ動かす。
-#   git tag v1.2.3 && git push origin v1.2.3  ->  1.2.3 / 1.2 / 1 / latest
+#   git tag v1.2.3 && git push origin v1.2.3  ->  1.2.3 / latest
 # - pull_request / workflow_dispatch は付けない (fork や第三者から起動させない)
 # - PAT は使わず、ジョブ限定の GITHUB_TOKEN (packages: write) だけで push する
 on:
@@ -41,11 +41,9 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.IMAGE }}
-          # v1.2.3 -> 1.2.3, 1.2, 1, latest
+          # v1.2.3 -> 1.2.3, latest
           tags: |
             type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
             type=raw,value=latest
 
       - name: Set up Buildx
